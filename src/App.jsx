@@ -4,9 +4,21 @@ import StudentNav from './components/StudentNav';
 import StudentView from './components/StudentView';
 import ProgressTracker from './components/ProgressTracker';
 import CompletionScreen from './components/CompletionScreen';
+import WarmUpQuiz from './components/WarmUpQuiz';
 import { useRampUpProgress } from './hooks/useRampUpProgress';
 
+const STAGE_KEY = 'rampup_stage';
+
+function loadStage() {
+  try {
+    return localStorage.getItem(STAGE_KEY) || 'warmup';
+  } catch {
+    return 'warmup';
+  }
+}
+
 export default function App() {
+  const [stage, setStage] = useState(loadStage);
   const [activeIndex, setActiveIndex] = useState(0);
   const { progress, markCompleted, getCompletedCount, resetProgress } = useRampUpProgress();
   const [showReset, setShowReset] = useState(false);
@@ -15,33 +27,62 @@ export default function App() {
   const allDone = completed === students.length;
   const activeStudent = students[activeIndex];
 
-  // Find next incomplete student when advancing
+  const goToStage = (s) => {
+    localStorage.setItem(STAGE_KEY, s);
+    setStage(s);
+  };
+
   const handleNext = () => {
-    // Try to find next incomplete student after current
     for (let i = activeIndex + 1; i < students.length; i++) {
       if (progress[students[i].student_id]?.status !== 'completed') {
         setActiveIndex(i);
         return;
       }
     }
-    // Wrap around
     for (let i = 0; i < activeIndex; i++) {
       if (progress[students[i].student_id]?.status !== 'completed') {
         setActiveIndex(i);
         return;
       }
     }
-    // All done - just go to next
     if (activeIndex < students.length - 1) {
       setActiveIndex(activeIndex + 1);
     }
   };
 
-  // Scroll to top when switching students
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeIndex]);
 
+  // --- WARM-UP STAGE ---
+  if (stage === 'warmup') {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div>
+              <h1 className="text-base font-semibold text-gray-900">Student Deep Dive Training</h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-0.5 rounded">Warm-Up</span>
+                <span className="text-xs text-gray-400">Anti-Pattern Identification</span>
+              </div>
+            </div>
+            <button
+              onClick={() => goToStage('deepdive')}
+              className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
+              Skip to Deep Dive
+            </button>
+          </div>
+        </header>
+        <main className="max-w-3xl mx-auto p-6">
+          <WarmUpQuiz onComplete={() => goToStage('deepdive')} />
+        </main>
+      </div>
+    );
+  }
+
+  // --- COMPLETION STAGE ---
   if (allDone) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -55,14 +96,17 @@ export default function App() {
     );
   }
 
+  // --- DEEP DIVE STAGE ---
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="text-base font-semibold text-gray-900">Student Deep Dive Training</h1>
-            <p className="text-xs text-gray-500">Spot learning anti-patterns across 18 students</p>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Deep Dive</span>
+              <span className="text-xs text-gray-400">Full analysis across 18 students</span>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <div className="w-48">
@@ -78,7 +122,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Reset modal */}
       {showReset && (
         <div className="fixed inset-0 bg-black/30 z-50 flex items-center justify-center px-4">
           <div className="bg-white rounded-xl shadow-lg max-w-sm w-full p-6">
@@ -109,7 +152,6 @@ export default function App() {
       )}
 
       <div className="max-w-6xl mx-auto flex">
-        {/* Sidebar */}
         <StudentNav
           students={students}
           activeIndex={activeIndex}
@@ -117,7 +159,6 @@ export default function App() {
           onSelect={setActiveIndex}
         />
 
-        {/* Mobile student selector */}
         <div className="lg:hidden w-full overflow-x-auto border-b border-gray-200 bg-white">
           <div className="flex">
             {students.map((s, i) => {
@@ -142,7 +183,6 @@ export default function App() {
           </div>
         </div>
 
-        {/* Main content */}
         <main className="flex-1 p-6 max-w-3xl" key={activeStudent.student_id}>
           <StudentView
             student={activeStudent}
