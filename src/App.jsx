@@ -101,11 +101,22 @@ export default function App() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div>
-            <h1 className="text-base font-semibold text-gray-900">Student Deep Dive Training</h1>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Deep Dive</span>
-              <span className="text-xs text-gray-400">Full analysis across 18 students</span>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => goToStage('warmup')}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer p-1 -ml-1"
+              title="Back to Warm-Up"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+              </svg>
+            </button>
+            <div>
+              <h1 className="text-base font-semibold text-gray-900">Student Deep Dive Training</h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Deep Dive</span>
+                <span className="text-xs text-gray-400">Full analysis across 18 students</span>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-4">
