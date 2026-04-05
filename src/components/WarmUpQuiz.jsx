@@ -168,7 +168,7 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
 
           {/* Guide's finding */}
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2">Guide&apos;s Finding</p>
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2">Academic Team&apos;s Finding</p>
             <p className="text-sm text-gray-700">{student.guide_finding}</p>
           </div>
 
