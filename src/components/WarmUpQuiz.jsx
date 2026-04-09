@@ -3,6 +3,8 @@ import warmupStudents from '../data/warmup_students.json';
 import { ANTI_PATTERNS } from '../constants/antiPatterns';
 import { useWarmUpProgress } from '../hooks/useWarmUpProgress';
 import ProgressTracker from './ProgressTracker';
+import FeedbackBox from './FeedbackBox';
+import { logToSheet } from '../utils/sheetLogger';
 
 function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
   const [selected, setSelected] = useState([]);
@@ -279,10 +281,27 @@ export default function WarmUpQuiz({ onComplete }) {
         key={activeStudent.student_id}
         student={activeStudent}
         isCompleted={progress[activeStudent.student_id]?.status === 'completed'}
-        onComplete={() => markCompleted(activeStudent.student_id)}
+        onComplete={() => {
+          markCompleted(activeStudent.student_id);
+          logToSheet({
+            stage: 'Warm-Up',
+            studentName: activeStudent.student_name,
+            studentId: activeStudent.student_id,
+            result: 'Completed',
+          });
+        }}
         onNext={handleNext}
         isLast={activeIndex === warmupStudents.length - 1 && completed === total - 1}
       />
+
+      {/* Feedback */}
+      <div className="mt-6">
+        <FeedbackBox
+          stage="Warm-Up"
+          studentName={activeStudent.student_name}
+          studentId={activeStudent.student_id}
+        />
+      </div>
     </div>
   );
 }
