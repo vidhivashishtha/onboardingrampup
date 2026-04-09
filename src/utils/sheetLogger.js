@@ -1,5 +1,4 @@
-// Replace this URL with your Google Apps Script deployment URL
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxfqBEBdVlX61w4SjHrLpbpQ8HvWmwgE008LAECCBX8R0XWKSBo3f2W80RhFZuDX68SvA/exec';
+import { supabase } from './supabase';
 
 const USER_KEY = 'rampup_user';
 
@@ -20,27 +19,19 @@ export function saveUser(name, email) {
 
 export async function logToSheet({ stage, studentName, studentId, result, attempts, feedback }) {
   const user = getUser();
-  if (!user || SHEET_URL.startsWith('__')) return; // Skip if no user or URL not configured
-
-  const payload = {
-    name: user.name,
-    email: user.email,
-    stage,
-    studentName,
-    studentId,
-    result,
-    attempts: attempts || '',
-    feedback: feedback || '',
-  };
+  if (!user || !supabase) return;
 
   try {
-    const params = new URLSearchParams();
-    for (const [key, value] of Object.entries(payload)) {
-      params.set(key, value);
-    }
-    // Use an image ping to avoid CORS — works with org-restricted Apps Script
-    const img = new Image();
-    img.src = `${SHEET_URL}?${params.toString()}`;
+    await supabase.from('progress_log').insert({
+      user_name: user.name,
+      user_email: user.email,
+      stage,
+      student_name: studentName || '',
+      student_id: studentId || '',
+      result: result || '',
+      attempts: attempts || null,
+      feedback: feedback || '',
+    });
   } catch {
     // Silently fail — don't disrupt the user's experience
   }

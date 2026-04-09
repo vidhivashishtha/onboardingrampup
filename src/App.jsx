@@ -7,6 +7,7 @@ import CompletionScreen from './components/CompletionScreen';
 import WarmUpQuiz from './components/WarmUpQuiz';
 import UserIdentity from './components/UserIdentity';
 import FeedbackBox from './components/FeedbackBox';
+import AdminDashboard from './components/AdminDashboard';
 import { useRampUpProgress } from './hooks/useRampUpProgress';
 import { getUser, logToSheet } from './utils/sheetLogger';
 
@@ -57,6 +58,11 @@ export default function App() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeIndex]);
+
+  // --- ADMIN ROUTE ---
+  if (window.location.pathname === '/admin') {
+    return <AdminDashboard />;
+  }
 
   // --- IDENTITY GATE ---
   if (!user) {
