@@ -36,8 +36,7 @@ export async function logToSheet({ stage, studentName, studentId, result, attemp
   try {
     await fetch(SHEET_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload),
     });
   } catch {
