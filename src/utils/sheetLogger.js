@@ -34,11 +34,13 @@ export async function logToSheet({ stage, studentName, studentId, result, attemp
   };
 
   try {
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(payload),
-    });
+    const params = new URLSearchParams();
+    for (const [key, value] of Object.entries(payload)) {
+      params.set(key, value);
+    }
+    // Use an image ping to avoid CORS — works with org-restricted Apps Script
+    const img = new Image();
+    img.src = `${SHEET_URL}?${params.toString()}`;
   } catch {
     // Silently fail — don't disrupt the user's experience
   }

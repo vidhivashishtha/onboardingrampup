@@ -56,9 +56,50 @@ function doPost(e) {
   }
 }
 
-// Required for CORS preflight
+// Handles GET requests (used by the app to avoid CORS issues with org-restricted deployments)
 function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ status: 'ok', message: 'Sheet logger is running' }))
-    .setMimeType(ContentService.MimeType.JSON);
+  try {
+    var params = e.parameter;
+    // If there are data params, log them
+    if (params.name || params.email || params.stage) {
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+      // Add headers if sheet is empty
+      if (sheet.getLastRow() === 0) {
+        sheet.appendRow([
+          'Timestamp',
+          'Name',
+          'Email',
+          'Stage',
+          'Student Name',
+          'Student ID',
+          'Result',
+          'Attempts',
+          'Feedback'
+        ]);
+        sheet.getRange(1, 1, 1, 9).setFontWeight('bold');
+      }
+
+      sheet.appendRow([
+        new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+        params.name || '',
+        params.email || '',
+        params.stage || '',
+        params.studentName || '',
+        params.studentId || '',
+        params.result || '',
+        params.attempts || '',
+        params.feedback || ''
+      ]);
+    }
+
+    // Return a 1x1 transparent pixel
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }
