@@ -1,5 +1,5 @@
 // Replace this URL with your Google Apps Script deployment URL
-const SHEET_URL = 'https://script.google.com/a/macros/2hourlearning.com/s/AKfycby0z48bTeVP9nDLOeKbJobcpNN9igE_xaCfJNig6fePOM_iWRA2zdkehwPBccIxi2bs/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxfqBEBdVlX61w4SjHrLpbpQ8HvWmwgE008LAECCBX8R0XWKSBo3f2W80RhFZuDX68SvA/exec';
 
 const USER_KEY = 'rampup_user';
 
