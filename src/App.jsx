@@ -8,6 +8,7 @@ import WarmUpQuiz from './components/WarmUpQuiz';
 import UserIdentity from './components/UserIdentity';
 import FeedbackBox from './components/FeedbackBox';
 import AdminDashboard from './components/AdminDashboard';
+import AdminLogin from './components/AdminLogin';
 import { useRampUpProgress } from './hooks/useRampUpProgress';
 import { getUser, logToSheet } from './utils/sheetLogger';
 
@@ -61,6 +62,9 @@ export default function App() {
 
   // --- ADMIN ROUTE ---
   if (window.location.pathname === '/admin') {
+    if (sessionStorage.getItem('admin_auth') !== 'true') {
+      return <AdminLogin onAuth={() => setStage(stage)} />;
+    }
     return <AdminDashboard />;
   }
 
