@@ -26,15 +26,21 @@ export default function AdminDashboard({ onLogout }) {
   const feedbackRows = rows.filter((r) => r.result === 'Feedback');
   const progressRows = rows.filter((r) => r.result !== 'Feedback');
 
+  const TOTAL_WARMUP = 10;
+  const TOTAL_DEEPDIVE = 18;
+
   // Group progress by user
   const userProgress = {};
   progressRows.forEach((r) => {
     const key = r.user_email || r.user_name;
     if (!userProgress[key]) {
-      userProgress[key] = { name: r.user_name, email: r.user_email, warmup: 0, deepdive: 0, latest: r.created_at };
+      userProgress[key] = { name: r.user_name, email: r.user_email, warmup: 0, deepdive: 0, deepdiveFirstAttempt: 0, latest: r.created_at };
     }
     if (r.stage === 'Warm-Up') userProgress[key].warmup++;
-    if (r.stage === 'Deep Dive') userProgress[key].deepdive++;
+    if (r.stage === 'Deep Dive') {
+      userProgress[key].deepdive++;
+      if (r.attempts === 1) userProgress[key].deepdiveFirstAttempt++;
+    }
   });
 
   const displayRows = filter === 'feedback' ? feedbackRows : filter === 'progress' ? progressRows : rows;
@@ -80,22 +86,46 @@ export default function AdminDashboard({ onLogout }) {
           <div>
             <h2 className="text-sm font-semibold text-gray-700 mb-3">User Progress</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {Object.values(userProgress).map((u) => (
-                <div key={u.email} className="bg-white rounded-lg border border-gray-200 p-4">
-                  <p className="font-medium text-sm text-gray-900">{u.name}</p>
-                  <p className="text-xs text-gray-400 mb-3">{u.email}</p>
-                  <div className="flex gap-4 text-xs">
-                    <div>
-                      <span className="font-medium text-blue-600">{u.warmup}</span>
-                      <span className="text-gray-500"> warm-up</span>
-                    </div>
-                    <div>
-                      <span className="font-medium text-emerald-600">{u.deepdive}</span>
-                      <span className="text-gray-500"> deep dive</span>
+              {Object.values(userProgress).map((u) => {
+                const warmupLeft = TOTAL_WARMUP - u.warmup;
+                const deepdiveLeft = TOTAL_DEEPDIVE - u.deepdive;
+                const firstAttemptPct = u.deepdive > 0 ? Math.round((u.deepdiveFirstAttempt / u.deepdive) * 100) : null;
+                return (
+                  <div key={u.email} className="bg-white rounded-lg border border-gray-200 p-4">
+                    <p className="font-medium text-sm text-gray-900">{u.name}</p>
+                    <p className="text-xs text-gray-400 mb-3">{u.email}</p>
+                    <div className="space-y-2">
+                      <div>
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="text-gray-500">Warm-Up</span>
+                          <span className="text-gray-700 font-medium">{u.warmup}/{TOTAL_WARMUP}</span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-1.5">
+                          <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${(u.warmup / TOTAL_WARMUP) * 100}%` }} />
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">{warmupLeft > 0 ? `${warmupLeft} remaining` : 'Complete'}</p>
+                      </div>
+                      <div>
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span className="text-gray-500">Deep Dive</span>
+                          <span className="text-gray-700 font-medium">{u.deepdive}/{TOTAL_DEEPDIVE}</span>
+                        </div>
+                        <div className="w-full bg-gray-100 rounded-full h-1.5">
+                          <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${(u.deepdive / TOTAL_DEEPDIVE) * 100}%` }} />
+                        </div>
+                        <p className="text-xs text-gray-400 mt-0.5">{deepdiveLeft > 0 ? `${deepdiveLeft} remaining` : 'Complete'}</p>
+                      </div>
+                      {firstAttemptPct !== null && (
+                        <div className="pt-1 border-t border-gray-100">
+                          <p className="text-xs text-gray-500">
+                            First-attempt accuracy: <span className={`font-medium ${firstAttemptPct >= 70 ? 'text-emerald-600' : firstAttemptPct >= 40 ? 'text-amber-600' : 'text-red-500'}`}>{firstAttemptPct}%</span>
+                          </p>
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         )}
