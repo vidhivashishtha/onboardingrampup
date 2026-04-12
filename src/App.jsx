@@ -66,7 +66,7 @@ export default function App() {
     if (!adminAuthed) {
       return <AdminLogin onAuth={() => setAdminAuthed(true)} />;
     }
-    return <AdminDashboard />;
+    return <AdminDashboard onLogout={() => { sessionStorage.removeItem('admin_auth'); setAdminAuthed(false); }} />;
   }
 
   // --- IDENTITY GATE ---

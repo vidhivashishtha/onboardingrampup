@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../utils/supabase';
 
-export default function AdminDashboard() {
+export default function AdminDashboard({ onLogout }) {
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all'); // 'all', 'progress', 'feedback'
@@ -57,12 +57,20 @@ export default function AdminDashboard() {
               {rows.length} total entries · {Object.keys(userProgress).length} users · {feedbackRows.length} feedback items
             </p>
           </div>
-          <button
-            onClick={loadData}
-            className="text-xs text-blue-600 hover:text-blue-800 cursor-pointer"
-          >
-            Refresh
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={loadData}
+              className="text-xs text-blue-600 hover:text-blue-800 cursor-pointer"
+            >
+              Refresh
+            </button>
+            <button
+              onClick={onLogout}
+              className="text-xs text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </header>
 
