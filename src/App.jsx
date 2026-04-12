@@ -61,9 +61,10 @@ export default function App() {
   }, [activeIndex]);
 
   // --- ADMIN ROUTE ---
+  const [adminAuthed, setAdminAuthed] = useState(() => sessionStorage.getItem('admin_auth') === 'true');
   if (window.location.pathname === '/admin') {
-    if (sessionStorage.getItem('admin_auth') !== 'true') {
-      return <AdminLogin onAuth={() => setStage(stage)} />;
+    if (!adminAuthed) {
+      return <AdminLogin onAuth={() => setAdminAuthed(true)} />;
     }
     return <AdminDashboard />;
   }
