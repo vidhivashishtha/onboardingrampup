@@ -6,11 +6,10 @@ import ProgressTracker from './components/ProgressTracker';
 import CompletionScreen from './components/CompletionScreen';
 import WarmUpQuiz from './components/WarmUpQuiz';
 import UserIdentity from './components/UserIdentity';
-import FeedbackBox from './components/FeedbackBox';
 import AdminDashboard from './components/AdminDashboard';
 import AdminLogin from './components/AdminLogin';
 import { useRampUpProgress } from './hooks/useRampUpProgress';
-import { getUser, logToSheet } from './utils/sheetLogger';
+import { getUser } from './utils/sheetLogger';
 
 const STAGE_KEY = 'rampup_stage';
 
@@ -220,25 +219,10 @@ export default function App() {
             isCompleted={progress[activeStudent.student_id]?.status === 'completed'}
             onComplete={() => {
               markCompleted(activeStudent.student_id);
-              const attempts = progress[activeStudent.student_id]?.attempts || 1;
-              logToSheet({
-                stage: 'Deep Dive',
-                studentName: activeStudent.student_name,
-                studentId: activeStudent.student_id,
-                result: `Passed (attempt ${attempts})`,
-                attempts,
-              });
             }}
             onNext={handleNext}
             isLast={activeIndex === students.length - 1 && completed === students.length - 1}
           />
-          <div className="mt-6">
-            <FeedbackBox
-              stage="Deep Dive"
-              studentName={activeStudent.student_name}
-              studentId={activeStudent.student_id}
-            />
-          </div>
         </main>
       </div>
     </div>
