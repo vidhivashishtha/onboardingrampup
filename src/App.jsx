@@ -135,7 +135,7 @@ export default function App() {
               <h1 className="text-base font-semibold text-gray-900">Student Deep Dive Training</h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Deep Dive</span>
-                <span className="text-xs text-gray-400">Full analysis across 18 students</span>
+                <span className="text-xs text-gray-400">Full analysis across {students.length} students</span>
               </div>
             </div>
           </div>

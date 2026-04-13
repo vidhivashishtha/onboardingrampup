@@ -1,13 +1,13 @@
 export default function RevealPanel({ student, submission }) {
   return (
     <div className="space-y-6">
-      <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+      <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
         <div className="flex items-center gap-2 mb-3">
-          <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+          <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
           </svg>
-          <h3 className="text-sm font-semibold text-emerald-800">
-            Analysis passed rubric. Here are the actual findings:
+          <h3 className="text-sm font-semibold text-blue-800">
+            Compare your analysis with the academic team's findings:
           </h3>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function RevealPanel({ student, submission }) {
 
         {/* Actual Findings */}
         <div className="space-y-4">
-          <h4 className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Answer Key</h4>
+          <h4 className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Academic Team's Findings</h4>
 
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <p className="text-xs font-medium text-blue-600 mb-1">Academic Issues & Fix</p>
