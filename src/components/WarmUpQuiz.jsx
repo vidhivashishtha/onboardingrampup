@@ -29,14 +29,6 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
     onNext();
   };
 
-  const correctSet = new Set(student.answer_patterns);
-  const selectedSet = new Set(selected);
-
-  // Scoring
-  const hits = selected.filter((s) => correctSet.has(s));
-  const misses = student.answer_patterns.filter((a) => !selectedSet.has(a));
-  const falsePositives = selected.filter((s) => !correctSet.has(s));
-
   return (
     <div className="space-y-6">
       {/* Student header */}
@@ -52,11 +44,32 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
         </p>
       </div>
 
+      {/* Highlighted dates */}
+      {student.highlight_dates && student.highlight_dates.length > 0 && (
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+          <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-2">Dates to Review</p>
+          <div className="flex flex-wrap gap-2">
+            {student.highlight_dates.map((date, i) => (
+              <span
+                key={i}
+                className="inline-block text-sm font-medium bg-amber-100 text-amber-800 px-3 py-1 rounded-full"
+              >
+                {date}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Instructions */}
       <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
         <p className="text-sm text-blue-800">
           Look up <span className="font-medium">{student.student_name.split(' ')[0]}&apos;s {student.subject}</span> learning sessions on{' '}
-          <span className="font-medium">{student.campus === 'Strata' ? 'TimeBack Flow or Vault' : 'StudyReel'}</span>.
+          <span className="font-medium">{student.campus === 'Strata' ? 'TimeBack Flow or Vault' : 'StudyReel'}</span>
+          {student.highlight_dates && student.highlight_dates.length > 0
+            ? <>, focusing on the dates highlighted above</>
+            : null
+          }.
           {' '}Review their learning behaviour, and select all learning anti-patterns you observe below.
         </p>
       </div>
@@ -69,16 +82,11 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {ANTI_PATTERNS.map((pattern) => {
             const isSelected = selected.includes(pattern.id);
-            const isCorrect = correctSet.has(pattern.id);
 
             let style = 'border-gray-200 bg-white hover:border-gray-300';
             if (submitted) {
-              if (isCorrect && isSelected) {
-                style = 'border-emerald-300 bg-emerald-50';
-              } else if (isCorrect && !isSelected) {
-                style = 'border-amber-300 bg-amber-50';
-              } else if (!isCorrect && isSelected) {
-                style = 'border-red-300 bg-red-50';
+              if (isSelected) {
+                style = 'border-blue-200 bg-blue-50';
               } else {
                 style = 'border-gray-100 bg-gray-50 opacity-60';
               }
@@ -94,25 +102,17 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
                 className={`flex items-center gap-2.5 text-left rounded-lg border px-3 py-2.5 text-sm transition-colors cursor-pointer disabled:cursor-default ${style}`}
               >
                 <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ${
-                  submitted
-                    ? isCorrect && isSelected
-                      ? 'bg-emerald-500 border-emerald-500'
-                      : isCorrect && !isSelected
-                        ? 'bg-amber-500 border-amber-500'
-                        : !isCorrect && isSelected
-                          ? 'bg-red-500 border-red-500'
-                          : 'border-gray-300'
-                    : isSelected
-                      ? 'bg-blue-500 border-blue-500'
-                      : 'border-gray-300'
+                  isSelected
+                    ? 'bg-blue-500 border-blue-500'
+                    : 'border-gray-300'
                 }`}>
-                  {(isSelected || (submitted && isCorrect)) && (
+                  {isSelected && (
                     <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                     </svg>
                   )}
                 </div>
-                <span className={submitted && !isCorrect && !isSelected ? 'text-gray-400' : 'text-gray-700'}>
+                <span className={submitted && !isSelected ? 'text-gray-400' : 'text-gray-700'}>
                   {pattern.label}
                 </span>
               </button>
@@ -132,46 +132,10 @@ function QuizCard({ student, isCompleted, onComplete, onNext, isLast }) {
         </button>
       ) : (
         <div className="space-y-4">
-          {/* Score */}
-          <div className="rounded-lg border border-gray-200 bg-white p-4">
-            <div className="flex items-center gap-4 text-sm">
-              <div>
-                <span className="font-medium text-emerald-600">{hits.length}</span>
-                <span className="text-gray-500"> correct</span>
-              </div>
-              <div>
-                <span className="font-medium text-amber-600">{misses.length}</span>
-                <span className="text-gray-500"> missed</span>
-              </div>
-              {falsePositives.length > 0 && (
-                <div>
-                  <span className="font-medium text-red-600">{falsePositives.length}</span>
-                  <span className="text-gray-500"> incorrect</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Legend */}
-          <div className="flex gap-4 text-xs text-gray-500">
-            <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-emerald-100 border border-emerald-300" />
-              Correct
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-amber-100 border border-amber-300" />
-              Missed
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-3 h-3 rounded bg-red-100 border border-red-300" />
-              Incorrect
-            </div>
-          </div>
-
-          {/* Guide's finding */}
+          {/* Academic Team's Finding */}
           <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
             <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2">Academic Team&apos;s Finding</p>
-            <p className="text-sm text-gray-700">{student.guide_finding}</p>
+            <p className="text-sm text-gray-700">{student.team_finding}</p>
           </div>
 
           {!isLast && (

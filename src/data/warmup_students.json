@@ -6,7 +6,8 @@
     "level": "L1",
     "subject": "Math",
     "answer_patterns": ["rushing_through_content", "skipping_instructional_material"],
-    "guide_finding": "Lola is wasting 50% of her Math time by rushing through calculations and skipping instructional content, so she must work through lessons carefully and complete the Tower of Power exercise the same day."
+    "highlight_dates": ["October 20", "October 23", "November 12"],
+    "team_finding": "Lola is wasting 50% of her Math time by rushing through calculations and skipping instructional content, so she must work through lessons carefully and complete the Tower of Power exercise the same day."
   },
   {
     "student_name": "Victoria Marin Barrios",
@@ -15,7 +16,8 @@
     "level": "L1",
     "subject": "Math",
     "answer_patterns": ["skipping_instructional_material", "skipping_explanations_after_errors"],
-    "guide_finding": "Victoria is losing 50% of her learning time in Math by skipping instructional videos and explanations, which is creating knowledge gaps and making it harder for her to retain what she learns."
+    "highlight_dates": ["October 30", "November 6", "November 11"],
+    "team_finding": "Victoria is losing 50% of her learning time in Math by skipping instructional videos and explanations, which is creating knowledge gaps and making it harder for her to retain what she learns."
   },
   {
     "student_name": "McKayla Caldbeck",
@@ -24,7 +26,8 @@
     "level": "L2",
     "subject": "Reading",
     "answer_patterns": ["rushing_through_content", "skipping_explanations_after_errors", "guessing_mindlessly_clicking"],
-    "guide_finding": "McKayla wasted approximately 80% of her reading time by rushing through questions without effort, skipping re-reading key passage details, and clicking through remaining questions after errors rather than reading explanations."
+    "highlight_dates": ["September 15", "September 22", "September 24"],
+    "team_finding": "McKayla wasted approximately 80% of her reading time by rushing through questions without effort, skipping re-reading key passage details, and clicking through remaining questions after errors rather than reading explanations."
   },
   {
     "student_name": "King Fluckers",
@@ -32,8 +35,9 @@
     "campus": "Strata",
     "level": "MS",
     "subject": "Reading",
-    "answer_patterns": ["rushing_through_content", "skipping_instructional_material", "below_daily_time_target"],
-    "guide_finding": "King averages 23 minutes/day in Reading, below the 25-minute daily target. He wastes ~20% of learning time by rushing through quizzes without reading responses and skipping instructional material."
+    "answer_patterns": ["rushing_through_content", "skipping_instructional_material"],
+    "highlight_dates": ["September 8", "September 19", "December 4"],
+    "team_finding": "King averages 23 minutes/day in Reading, below the 25-minute daily target. He wastes ~20% of learning time by rushing through quizzes without reading responses and skipping instructional material."
   },
   {
     "student_name": "Aileya Klinefelter",
@@ -41,35 +45,9 @@
     "campus": "Alpha School Austin",
     "level": "MS",
     "subject": "Language",
-    "answer_patterns": ["gaming_the_system", "idling_off_task", "rushing_through_content", "below_daily_time_target"],
-    "guide_finding": "Aileya wasted roughly 30% of her Language time by refreshing pages for easier questions, restarting skills to avoid difficult content, and idling, while also spending only 9 minutes per day on Writing and rushing through tests."
-  },
-  {
-    "student_name": "Julie Saint",
-    "student_id": "015-2887",
-    "campus": "Alpha School Miami",
-    "level": "L2",
-    "subject": "Language",
-    "answer_patterns": ["low_stamina_gives_up", "below_daily_xp_target"],
-    "guide_finding": "Julie was abandoning Writing assignments before finishing them, wasting up to 50% of her time and averaging only 8 points per day despite spending 15 minutes in Writing."
-  },
-  {
-    "student_name": "Arianna Salazar",
-    "student_id": "029-2557",
-    "campus": "Nova Academy Bastrop",
-    "level": "L2",
-    "subject": "Language",
-    "answer_patterns": ["below_daily_time_target", "inconsistent_daily_effort"],
-    "guide_finding": "Arianna averages only 18 minutes per day in Language, below the 25-minute daily target, and her overall growth has been low across subjects due to consistency and efficiency gaps."
-  },
-  {
-    "student_name": "D'sean Harden II",
-    "student_id": "014-0711",
-    "campus": "Texas Sports Academy",
-    "level": "L2",
-    "subject": "Science",
-    "answer_patterns": ["rushing_through_content", "gaming_the_system"],
-    "guide_finding": "D'Sean is consistently closing his Science ring but is finishing his lessons 30% faster than what's recommended. It's possible he is rushing through to gain XP but is not retaining the info."
+    "answer_patterns": ["gaming_the_system", "idling_off_task", "rushing_through_content"],
+    "highlight_dates": ["October 13", "October 21", "December 4"],
+    "team_finding": "Aileya wasted roughly 30% of her Language time by refreshing pages for easier questions, restarting skills to avoid difficult content, and idling, while also spending only 9 minutes per day on Writing and rushing through tests."
   },
   {
     "student_name": "Luis Merino",
@@ -78,15 +56,17 @@
     "level": "L2",
     "subject": "Language",
     "answer_patterns": ["rushing_through_content", "skipping_instructional_material", "gaming_the_system"],
-    "guide_finding": "Luis achieves his daily XP target while investing only 4 minutes/day. He often skipped instructional content for almost all skills, answered most questions in under 1 minute, and completed all lesson tests in under 30 seconds. After finishing the Grade 3 MobyMax course, he failed the mastery test six times. Luis must slow down during both lessons and tests, read instructional material attentively, and learn from explanations after mistakes."
+    "highlight_dates": ["September 24", "October 8", "November 4"],
+    "team_finding": "Luis achieves his daily XP target while investing only 4 minutes/day. He often skipped instructional content for almost all skills, answered most questions in under 1 minute, and completed all lesson tests in under 30 seconds. After finishing the Grade 3 MobyMax course, he failed the mastery test six times. Luis must slow down during both lessons and tests, read instructional material attentively, and learn from explanations after mistakes."
   },
   {
-    "student_name": "Sean Jiang",
-    "student_id": "059-4514",
-    "campus": "Strata",
-    "level": "MS",
-    "subject": "Reading",
-    "answer_patterns": ["gaming_the_system", "below_daily_time_target"],
-    "guide_finding": "Sean gamed the XP system (via 100for100 and Anton), achieving 89 XP/day with only 11 min/day. Sean must dedicate at least 25 minutes per day to his Reading app."
+    "student_name": "D'sean Harden II",
+    "student_id": "014-0711",
+    "campus": "Texas Sports Academy",
+    "level": "L2",
+    "subject": "Science",
+    "answer_patterns": ["rushing_through_content", "gaming_the_system"],
+    "highlight_dates": ["November 21", "December 3", "January 14"],
+    "team_finding": "D'Sean is consistently closing his Science ring but is finishing his lessons 30% faster than what's recommended. It's possible he is rushing through to gain XP but is not retaining the info."
   }
 ]
